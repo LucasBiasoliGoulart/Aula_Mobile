@@ -28,8 +28,8 @@ class Noticias extends Component {
   render() {
     return (
       <View style={{ marginTop: 10, marginBottom: 10, backgroundColor: 'white' }}>
-        <Image source={{uri: this.props.img}} style={{ width: this.props.altura, height: this.props.largura, backgroundColor: 'gray', textAlign: 'center' }}></Image>
-        
+        <Image source={{uri: this.props.img}} style={{ width: this.props.altura, height: this.props.largura, textAlign: 'center' }}></Image>
+
         <Text style={{ fontSize: 19}}>{this.props.nome}</Text>
         <Text style={{ fontSize: 15, textAlign: 'justify', marginTop: 5, marginBottom: 5}}>{this.props.info}</Text>
       </View>
