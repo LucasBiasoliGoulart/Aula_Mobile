@@ -52,7 +52,7 @@ const estilos = StyleSheet.create({
     flex: 1,
     width: 900,
     height: 150,
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   noticia:{
     flex: 2,
