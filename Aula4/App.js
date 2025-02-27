@@ -1,20 +1,56 @@
 import React, {Component} from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, TextInput, StyleSheet, Button } from "react-native";
 
 class App extends Component {
+  // Pegando nome
+  constructor(props) {
+    super(props);
+    this.state = {nome: ''}
+    this.pegar = this.pegar.bind(this);
+  }
+
+  /*pegar(texto) {
+    this.setState({nome: texto})
+  }*/
+
+  pegar(texto) {
+    if(texto.length > 0) {
+      this.setState({nome: texto})  
+    }else {
+      this.setState({nome: ''})
+    }
+  }
+
   render() {
     return(
-      <View style={{flex:1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', backgroundColor: 'white'}}>
-        <View style={{height:50, backgroundColor: 'gray'}}></View>
-        <View style={{height:50, width:50, backgroundColor: 'green'}}>
-          <Text>Olá Mundo</Text>
+      <View style={estilos.container}>
+        <TextInput style={estilos.caixa} placeholder="Digite seu nome" onChangeText={this.pegar}></TextInput>
+        <View style={estilos.botao}>
+          <Button title="Entrar" onPress={()=> this.pegar('Olá, seja bem vindo!')}></Button>
         </View>
-        <View style={{height:50, width:50, backgroundColor: 'yellow'}}></View>
-        <View style={{height:50, width:50, backgroundColor: 'blue'}}></View>
-        <View style={{height:50, backgroundColor: 'gray'}}></View>
+        <Text style={estilos.texto}>{this.state.nome}</Text>
       </View>
     );
   }
 }
+
+const estilos = StyleSheet.create({
+  container:{
+    flex: 1
+  },
+  caixa:{
+    marginTop: 100,
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 50
+  },
+  texto:{
+    textAlign: 'center',
+    fontSize: 20
+  },
+  botao:{
+    marginTop: 10
+  }
+});
 
 export default App
