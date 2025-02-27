@@ -51,7 +51,7 @@ const estilos = StyleSheet.create({
   banner:{
     flex: 1,
     width: 900,
-    height: 130,
+    height: 150,
     justifyContent: 'center',
   },
   noticia:{
