@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import { View, Text, TextInput, StyleSheet, Button } from "react-native";
 
 class App extends Component {
-  // Pegando nome
   constructor(props) {
     super(props);
     this.state = {nome: '', input: ''}
@@ -15,15 +14,6 @@ class App extends Component {
     }
     this.setState({nome: 'Seja bem vindo!' + this.state.input});
   }
-
-  /*pegar(texto) {
-    if(texto.length > 0) {
-      this.setState({nome: texto})  
-    }else {
-      this.setState({nome: ''})
-    }
-  }*/
-
 
   render() {
     return(
@@ -40,19 +30,25 @@ class App extends Component {
 
 const estilos = StyleSheet.create({
   container:{
-    flex: 1
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    backgroundColor: 'mediumturquoise'
   },
   caixa:{
-    marginTop: 100,
+    width: 350,
     borderColor: 'black',
     borderWidth: 1,
-    borderRadius: 50
+    borderRadius: 50,
+    backgroundColor: 'white',
   },
   texto:{
     textAlign: 'center',
     fontSize: 20
   },
   botao:{
+    width: 200,
     marginTop: 10
   }
 });
