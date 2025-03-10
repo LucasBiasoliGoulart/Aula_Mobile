@@ -5,28 +5,32 @@ class App extends Component {
   // Pegando nome
   constructor(props) {
     super(props);
-    this.state = {nome: ''}
-    this.pegar = this.pegar.bind(this);
+    this.state = {nome: '', input: ''}
+    this.entrar = this.entrar.bind(this);
+  }
+  entrar() {
+    if(this.state.input === ''){
+      alert('Digite seu nome');
+      return;
+    }
+    this.setState({nome: 'Seja bem vindo!' + this.state.input});
   }
 
   /*pegar(texto) {
-    this.setState({nome: texto})
-  }*/
-
-  pegar(texto) {
     if(texto.length > 0) {
       this.setState({nome: texto})  
     }else {
       this.setState({nome: ''})
     }
-  }
+  }*/
+
 
   render() {
     return(
       <View style={estilos.container}>
-        <TextInput style={estilos.caixa} placeholder="Digite seu nome" onChangeText={this.pegar}></TextInput>
+        <TextInput style={estilos.caixa} placeholder="Digite seu nome" onChangeText={(texto)=> this.setState({input: texto})}></TextInput>
         <View style={estilos.botao}>
-          <Button title="Entrar" onPress={()=> this.pegar('Olá, seja bem vindo!')}></Button>
+          <Button title="Entrar" onPress={this.entrar}></Button>
         </View>
         <Text style={estilos.texto}>{this.state.nome}</Text>
       </View>
