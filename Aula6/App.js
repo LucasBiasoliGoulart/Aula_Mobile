@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
- 
+
+// Aula 6 - Picker
 class App extends Component {
   constructor(props) {
     super(props);
@@ -25,10 +26,7 @@ class App extends Component {
     return (
       <View style={estilos.container}>
         <Text style={estilos.logo}>Menu Pizza</Text>
-        <Picker
-          selectedValue={this.state.pizza}
-          onValueChange={(itemValue) => this.setState({ pizza: itemValue })}
-        >
+        <Picker onValueChange={(itemValue) => this.setState({ pizza: itemValue })}>
           <Picker.Item label='Escolha aqui sua pizza' enabled={false} />
           {pizzaItem}
         </Picker>
