@@ -22,20 +22,40 @@ class App extends Component {
         { key: 3, nome: 'Não Opinir' }
       ],
       nome: '', 
-      idade: 0 
+      idade: '',
+      nomeErro: false,
+      idadeErro: false 
     };
   }
 
-  mostraAlert = () => {
+  validadorFormulario = () => {
     const { nome, idade, genero, valor, valors } = this.state;
-    const sexo = this.state.generos.find(g => g.key === genero)?.nome || 'Não definido';
-    const estudante = valors ? 'Sim' : 'Não';
 
-    Alert.alert(
-      'Sua conta foi aberta com sucesse',
-      `Nome: ${nome}\nIdade: ${idade}\nSexo: ${sexo}\nLimite: R$ ${valor}\nEstudante: ${estudante}`,
-      [{ text: 'OK' }]
-    );
+    // Verificar os campos preenchidos
+    const nomeErro = nome.trim() === '';
+    const idadeErro = idade.trim() === '';
+
+    this.setState({ nomeErro, idadeErro });
+
+    if (nomeErro || idadeErro) {
+      Alert.alert('Erro', 'Por favor preencha todos os campos obrigatóris.');
+      return false;
+    }
+    return true;
+  }
+
+  mostraAlert = () => {
+    if (this.validadorFormulario()) {
+      const { nome, idade, genero, valor, valors } = this.state;
+      const sexo = this.state.generos.find(g => g.key === genero)?.nome || 'Não definido';
+      const estudante = valors ? 'Sim' : 'Não';
+
+      Alert.alert(
+        'Sua conta foi aberta com sucesse',
+        `Nome: ${nome}\nIdade: ${idade}\nSexo: ${sexo}\nLimite: R$ ${valor}\nEstudante: ${estudante}`,
+        [{ text: 'OK' }]
+      );
+    }
   }
 
   render() {
@@ -51,7 +71,7 @@ class App extends Component {
         <View style={{ marginTop: 10 }}>
           <Text style={estilos.texto}>Nome:</Text>
           <TextInput
-            style={estilos.input}
+            style={[estilos.input, this.state.nomeErro && { borderColor: 'red' }]}
             placeholder='Digite seu nome'
             value={this.state.nome}
             onChangeText={(text) => this.setState({ nome: text })}
@@ -60,7 +80,7 @@ class App extends Component {
         <View style={{ marginTop: 10 }}>
           <Text style={estilos.texto}>Idade:</Text>
           <TextInput
-            style={estilos.input}
+            style={[estilos.input, this.state.idadeErro && { borderColor: 'red' }]}
             keyboardType='numeric'
             placeholder='Digite sua idade'
             value={this.state.idade.toString()}
