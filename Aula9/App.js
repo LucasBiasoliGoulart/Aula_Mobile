@@ -1,52 +1,35 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, Text, StyleSheet, Button, Modal } from 'react-native';
+import Entrar from "./src/Entrar.js";
 
-// Aula 9 - AsyncStorage
+// Aula 10 - Modal
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      entrada: "",
-      nome: ""
+      visibModal: false
     };
-    this.gravarNome = this.gravarNome.bind(this);
+    this.entrar = this.entrar.bind(this);
+    this.sair = this.sair.bind(this);
   }
 
-  async componentDidMount() {
-    await AsyncStorage.getItem("nome").then((value)=> {
-      this.setState({nome: value});
-    });
-  }
-  async componentDidUpdate(_, prevState) {
-    if(prevState !== this.state.nome) {
-      await AsyncStorage.setItem('nome', this.state.nome)
-    }
+  entrar() {
+    this.setState({visibModal: true})
   }
 
-  gravarNome() {
-    const{entrada} = this.state;
-    this.setState({
-      nome: this.state.entrada
-    });
-    AsyncStorage.setItem("nome", entrada);
-    alert('Salvo com sucesso')
-    Keyboard.dismiss();
+  sair(estado) {
+    this.setState({visibModal: estado})
   }
 
   render() {
     return (
       <View style={estilos.container}>
-        <View style={estilos.viewEntrada}>
-          <TextInput style={estilos.input} 
-          value={this.state.entrada} 
-          onChangeText={(texto)=> this.setState({entrada: texto})}
-          ></TextInput>
-          <TouchableOpacity onPress={this.gravarNome}>
-            <Text style={estilos.botao}>+</Text>
-          </TouchableOpacity>
-        </View>
-        <Text style={estilos.texto}>{this.state.nome}</Text>
+        <Button title='Entrar' onPress={this.entrar}></Button>
+        <Modal visible={this.state.visibModal} animationType='fade' transparent={true}>
+          <View style={{ marginTop: 15, flex: 1, alignItems: 'center', justifyContent: 'center', padding: 10}}>
+            <Entrar fechar={()=> this.sair(false)}></Entrar>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -55,31 +38,9 @@ class App extends Component {
 const estilos = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 50,
-    padding: 20,
-    alignItems: 'center'
+    marginTop: 70,
+    alignItems: 'center',
   },
-  viewEntrada: {
-    flexDirection: "row",
-  },
-  input: {
-    width: 350,
-    height: 40,
-    borderColor: "#000",
-    borderWidth: 1,
-    padding: 10
-  },
-  botao: {
-    backgroundColor: '#000',
-    color: 'white',
-    height: 40,
-    padding: 10,
-    borderWidth: 1,
-  },
-  texto: {
-    fontSize: 20,
-    marginTop: 10
-  }
 });
 
 export default App;
