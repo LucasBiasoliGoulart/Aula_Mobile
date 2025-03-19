@@ -33,7 +33,7 @@ class App extends Component {
   calcular() {
     const { precoA, precoG } = this.state;
     if(precoA > 0 && precoG > 0) {
-      const resultado = (precoA / precoG) > 0.7 ? 'Álcool é melhor' : 'Gasolina é melhor';
+      const resultado = (precoA / precoG) < 0.7 ? 'Álcool é melhor' : 'Gasolina é melhor';
       this.setState({ resultado });
     }
   }
