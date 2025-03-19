@@ -18,7 +18,7 @@ class Entrar extends Component {
           <Text style={estilos.textos}>Gasolina: R${precoG}</Text>
         </View>
         <TouchableOpacity style={estilos.botao} onPress={() => this.props.fechar()}>
-          <Text style={estilos.texto}>Sair</Text>
+          <Text style={estilos.texto}>Voltar</Text>
         </TouchableOpacity>
       </View>
     );
@@ -27,11 +27,14 @@ class Entrar extends Component {
 
 const estilos = StyleSheet.create({
   carta: {
-    flex: 1,
     width: '100%',
+    height: '100%',
     borderRadius: 10,
     backgroundColor: '#141414',
-    padding: 10
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column'
   },
   banner: {
     width: '100%',
@@ -39,8 +42,8 @@ const estilos = StyleSheet.create({
     flexDirection: 'column'
   },
   icone: {
-    width: 200,
-    height: 200,
+    width: 230,
+    height: 230,
   },
   titulo: {
     color: 'lime',
@@ -70,7 +73,7 @@ const estilos = StyleSheet.create({
     fontSize: 20
   },
   botao: {
-    width: '100%',
+    width: '90%',
     padding: 10,
     alignItems: 'center',
     backgroundColor: 'red',

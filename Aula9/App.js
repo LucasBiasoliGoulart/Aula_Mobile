@@ -35,7 +35,7 @@ class App extends Component {
   }
 
   render() {
-    let icone = 'https://cdn-icons-png.flaticon.com/512/1986/1986894.png'
+    let icone = 'https://cdn-icons-png.flaticon.com/512/2933/2933939.png'
     return (
       <View style={estilos.container}>
         <View style={estilos.banner}>
@@ -96,12 +96,12 @@ const estilos = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     flexDirection: 'column',
-    marginTop: 100,
+    marginTop: 50,
     marginBottom: 30
   },
   icone: {
-    width: 200,
-    height: 200,
+    width: 270,
+    height: 270,
   },
   titulo: {
     fontSize: 25,
@@ -118,7 +118,8 @@ const estilos = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    borderRadius: 5
   },
   botao: {
     width: '100%',
