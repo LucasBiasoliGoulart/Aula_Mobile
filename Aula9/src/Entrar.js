@@ -4,13 +4,13 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 // Aula - Modal
 class Entrar extends Component {
   render() {
-    const { precoA, precoG, resultado } = this.props;
+    const { precoA, precoG, resultado, resultadoCor } = this.props;
     let icone = 'https://cdn-icons-png.flaticon.com/512/5984/5984310.png'
     return (
       <View style={estilos.carta}>
         <View style={estilos.banner}>
           <Image source={{uri:icone}} style={estilos.icone}></Image>
-          <Text style={estilos.titulo}>{resultado}</Text>
+          <Text style={[estilos.titulo, { color: resultadoCor} ]}>{resultado}</Text>
         </View>
         <View style={estilos.caixa}>
           <Text style={estilos.subtitulo}>Com os preços:</Text>
@@ -46,7 +46,6 @@ const estilos = StyleSheet.create({
     height: 230,
   },
   titulo: {
-    color: 'lime',
     fontSize: 30,
     padding: 5,
     textAlign: 'center'

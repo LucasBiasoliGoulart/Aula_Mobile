@@ -18,11 +18,15 @@ class App extends Component {
 
   entrar() {
     this.calcular();
-    this.setState({visibModal: true})
+    this.setState({ visibModal: true });
   }
 
   sair(estado) {
-    this.setState({visibModal: estado})
+    this.setState({
+      visibModal: estado,
+      precoA: 0,
+      precoG: 0
+    });
   }
 
   // Calcular
@@ -36,6 +40,7 @@ class App extends Component {
 
   render() {
     let icone = 'https://cdn-icons-png.flaticon.com/512/2933/2933939.png'
+    const resultadoCor = this.state.resultado === 'Álcool é melhor' ? 'lime' : this.state.resultado === 'Gasolina é melhor' ? 'orange' : 'white';
     return (
       <View style={estilos.container}>
         <View style={estilos.banner}>
@@ -74,6 +79,7 @@ class App extends Component {
               precoA={this.state.precoA} 
               precoG={this.state.precoG}
               resultado={this.state.resultado}
+              resultadoCor={resultadoCor}
               fechar={()=> this.sair(false)}
             ></Entrar>
           </View>
