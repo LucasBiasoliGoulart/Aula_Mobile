@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo, useRef} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
  
@@ -6,6 +6,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 export default function App() {
   const [nome, setNome] = useState('Lucas');
   const [entrada, setEntrada] = useState('');
+  const nomeNovo = useRef(null);
  
   // Recupera o nome salvo no AsyncStorage ao iniciar o app
   useEffect(() => {
@@ -17,7 +18,7 @@ export default function App() {
     }
     getStorage();
   }, []);
- 
+
   // Salva o nome no AsyncStorage sempre que ele for alterado
   useEffect(() => {
     async function saveStorage() {
@@ -25,6 +26,16 @@ export default function App() {
     }
     saveStorage();
   }, [nome]);
+
+  const letras = useMemo(()=> {
+    console.log('Mudou');
+    return nome.length;
+  },[nome]);
+
+  // Colocar um nome novo
+  function novoNome() {
+    nomeNovo.current.focus();
+  }
  
   // Função para alterar o nome
   function alteraNome() {
@@ -41,14 +52,26 @@ export default function App() {
         placeholder='Digite seu nome'
         value={entrada}
         onChangeText={(texto) => setEntrada(texto)}
+        ref={nomeNovo}
       />
       <TouchableOpacity style={styles.btn} onPress={alteraNome}>
         <Text style={styles.btnTexto}>Alterar nome</Text>
       </TouchableOpacity>
       <Text style={styles.texto}>{nome}</Text>
+      <Text style={styles.texto}>{nome} tem {letras} letras</Text>
+      <TouchableOpacity style={styles.btn} onPress={novoNome}>
+        <Text style={styles.btnTexto}>Novo nome</Text>
+      </TouchableOpacity>
+      <TextInput
+        style={styles.input}
+        placeholder='Digite seu nome'
+        value={entrada}
+        onChangeText={(texto) => setEntrada(texto)}
+      />
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
    flex: 1,
@@ -60,7 +83,7 @@ const styles = StyleSheet.create({
     color: '#000',
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 35,
+    fontSize: 20,
   },
  
   input: {
@@ -81,6 +104,3 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
 });
- 
- 
- 
