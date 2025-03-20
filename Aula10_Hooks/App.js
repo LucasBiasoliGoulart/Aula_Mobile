@@ -1,53 +1,86 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-
+import React, {useState, useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+ 
 // Aula - Hooks
 export default function App() {
   const [nome, setNome] = useState('Lucas');
   const [entrada, setEntrada] = useState('');
-
+ 
+  // Recupera o nome salvo no AsyncStorage ao iniciar o app
+  useEffect(() => {
+    async function getStorage() {
+      const nomeStorage = await AsyncStorage.getItem('nome');
+      if (nomeStorage !== null) {
+        setNome(nomeStorage);
+      }
+    }
+    getStorage();
+  }, []);
+ 
+  // Salva o nome no AsyncStorage sempre que ele for alterado
+  useEffect(() => {
+    async function saveStorage() {
+      await AsyncStorage.setItem('nome', nome);
+    }
+    saveStorage();
+  }, [nome]);
+ 
+  // Função para alterar o nome
   function alteraNome() {
-    setNome(entrada);
-    setEntrada('');
+    if (entrada.trim() !== "") {
+      setNome(entrada); 
+      setEntrada('');   
+    }
   }
+ 
   return (
-    <View style={estilos.container}>
-      <TextInput style={estilos.input} 
-      value={entrada} 
-      placeholder='Digite seu nome'
-      onChangeText={(texto)=> setEntrada(texto)}
-      ></TextInput>
-      <TouchableOpacity style={estilos.botao} onPress={alteraNome}>
-        <Text style={estilos.minTexto}>Clicar</Text>
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder='Digite seu nome'
+        value={entrada}
+        onChangeText={(texto) => setEntrada(texto)}
+      />
+      <TouchableOpacity style={styles.btn} onPress={alteraNome}>
+        <Text style={styles.btnTexto}>Alterar nome</Text>
       </TouchableOpacity>
-      <Text style={estilos.texto}>{nome}</Text>
+      <Text style={styles.texto}>{nome}</Text>
     </View>
   );
 }
-
-const estilos = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginTop: 50
+   flex: 1,
+   marginTop: 55,
+   padding: 10
   },
+ 
   texto: {
-    fontWeight: 'bold',
-    fontSize: 25,
+    color: '#000',
     textAlign: 'center',
-    marginTop: 10
+    fontWeight: 'bold',
+    fontSize: 35,
   },
+ 
   input: {
     borderWidth: 1,
-    borderRadius: 10
+    borderRadius: 5,
   },
-  botao: {
-    backgroundColor: 'lightblue',
-    borderRadius: 10,
+ 
+  btn: {
+    backgroundColor: 'black',
+    borderRadius: 5,
     padding: 10,
     marginTop: 10
   },
-  minTexto: {
-    textAlign: 'center',
-    fontSize: 20
-  }
+ 
+  btnTexto:{
+    color: 'white',
+    fontSize: 20,
+    textAlign: 'center'
+  },
 });
+ 
+ 
+ 
