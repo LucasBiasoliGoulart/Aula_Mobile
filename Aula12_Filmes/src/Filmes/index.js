@@ -1,22 +1,21 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Modal } from 'react-native';
-//import api from './src/Services/api.js'
 import Detalhes from '../Detalhes/index.js';
 
 export default function App({ data }) {
-    const [modalVisibilidade, setModalvisibilidade] = useState(true)
+  const [modalVisibilidade, setModalvisibilidade] = useState(false)
   return (
     <View style={styles.card}>
       <Text style={styles.titulo}>{data.nome}</Text>
       <Image style={styles.capa} source={{uri: data.foto}}></Image>
       <View style={styles.areaBotao}>
-         <TouchableOpacity style={styles.botao}>
+         <TouchableOpacity style={styles.botao} onPress={()=> setModalvisibilidade(true)}>
             <Text style={styles.textoBotao}>Ver Mais</Text>
          </TouchableOpacity>
       </View>
       <View>
         <Modal visible={modalVisibilidade} animationType='slide' transparent={true}>
-            <Detalhes></Detalhes>
+            <Detalhes filme={data} fecharModal={()=> setModalvisibilidade(false)}></Detalhes>
         </Modal>
       </View>
     </View>
@@ -25,9 +24,9 @@ export default function App({ data }) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFF',
+    backgroundColor: '#E2E2E2',
     margin: 15,
-    elevation: 2
+    elevation: 2,
   },
   titulo: {
     fontSize: 20,
@@ -47,7 +46,7 @@ const styles = StyleSheet.create({
     width: 100,
     backgroundColor: 'dodgerblue',
     zIndex: 3,
-    padding: 5,
+    padding: 7,
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
     opacity: 10
@@ -55,7 +54,7 @@ const styles = StyleSheet.create({
   textoBotao: {
     color: '#FFF',
     textAlign: 'center',
-    fontSize: 13,
+    fontSize: 15,
     fontWeight: 'bold'
   }
 });

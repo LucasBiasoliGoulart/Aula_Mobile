@@ -1,19 +1,18 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-//import api from './src/Services/api.js'
 
-export default function App({ data }) {
-    return (
-        <View style={styles.container}>
-            <View style={styles.modalContainer}>
-                <TouchableOpacity style={styles.botaoFechar}>
-                    <Text style={styles.textoFechar}>Fechar</Text>
-                </TouchableOpacity>
-                <Text style={styles.titulo}>Titulo</Text>
-                <Text style={styles.textoSinopse}>Sinopse:</Text>
-                <Text style={styles.textoDetalhes}>Texto</Text>
-            </View>
-        </View>
+export default function App(props) {
+  return (
+    <View style={styles.container}>
+      <View style={styles.modalContainer}>
+          <TouchableOpacity style={styles.botaoFechar} onPress={props.fecharModal}>
+            <Text style={styles.textoFechar}>Fechar</Text>
+          </TouchableOpacity>
+          <Text style={styles.titulo}>{props.filme.nome}</Text>
+          <Text style={styles.textoSinopse}>Sinopse:</Text>
+          <Text style={styles.textoDetalhes}>{props.filme.sinopse}</Text>
+      </View>
+    </View>
   );
 }
 
@@ -26,14 +25,14 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   modalContainer: {
-    width: '90%',
+    width: '100%',
     height: '80%',
     backgroundColor: '#292929',
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10
   },
   botaoFechar: {
-    backgroundColor: 'red',
+    backgroundColor: '#E22E2E',
     padding: 10,
     margin: 5,
     borderTopRightRadius: 10,
@@ -56,11 +55,11 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 18,
     marginLeft: 10,
-    marginBottom: 10
   },
   textoDetalhes: {
     color: '#FFF',
-    fontSize: 18,
-    marginLeft: 10
+    fontSize: 16,
+    margin: 10,
+    textAlign: 'justify'
   }
 });
