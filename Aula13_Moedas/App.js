@@ -1,23 +1,46 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
+import Pickeritem from './src/Picker/index.js';
+import api from './src/Services/api.js';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <View style={styles.card}>
-        <Text style={styles.titulo}>Selecione sua Moeda</Text>
-        <Picker style={styles.pickerContainer}>
-          <Picker.Item label='USD'/>
-        </Picker>
-        <Text style={styles.titulo}>Digite uma valor para converter em (R$)</Text>
-        <TextInput style={styles.input} keyboardType='numeric'></TextInput>
-        <TouchableOpacity style={styles.botao}>
-          <Text style={styles.textoBotao}>Converter</Text>
-        </TouchableOpacity>
+  const [loading, setLoading] = useState(true);
+
+  useEffect(()=> {
+    async function loadPage() {
+      setTimeout(()=> {
+        setLoading(false);
+      }, 2000);
+    }
+    loadPage();
+  }, []);
+
+  if(loading) {
+    return(
+      <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+        <ActivityIndicator color={'dodgerblue'} size={80}></ActivityIndicator>
       </View>
-    </View>
-  );
+    );
+  }else {
+    return (
+      <View style={styles.container}>
+        <View style={styles.card}>
+          <Text style={styles.titulo}>Selecione sua Moeda</Text>
+          <Pickeritem/>
+          <Text style={styles.titulo}>Digite uma valor para converter em (R$)</Text>
+          <TextInput style={styles.input} keyboardType='numeric' placeholder='EX: 1.50'></TextInput>
+          <TouchableOpacity style={styles.botao}>
+            <Text style={styles.textoBotao}>Converter</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.card2}>
+          <Text style={styles.texto}>USD</Text>
+          <Text style={styles.texto}>Corresponde a</Text>
+          <Text style={styles.texto}>R$</Text>
+        </View>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -28,8 +51,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#292929'
   },
   card: {
-    width: '95%',
-    padding: 5,
+    width: '90%',
+    padding: 10,
     borderRadius: 10,
     backgroundColor: '#FFF',
   },
@@ -37,15 +60,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 17
   },
-  pickerContainer: {
-    marginBottom: 5,
-    marginTop: 10,
-    backgroundColor: '#E4E4E4',
-  },
   input: {
     width: '100%',
-    height: 40,
-    backgroundColor: '#E4E4E4',
+    height: 45,
+    backgroundColor: '#EBEBEB',
     marginTop: 5,
     marginBottom: 10,
     borderRadius: 5
@@ -59,5 +77,20 @@ const styles = StyleSheet.create({
   textoBotao: {
     textAlign: 'center',
     fontSize: 20
-  }
+  },
+  card2: {
+    width: '90%',
+    padding: 5,
+    borderRadius: 10,
+    backgroundColor: '#FFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20
+  },
+  texto:{
+    fontWeight: 'bold',
+    fontSize: 19,
+    marginBottom: 5,
+    marginTop: 5
+  },
 });
