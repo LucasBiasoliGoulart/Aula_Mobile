@@ -1,19 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
-import Pickeritem from './src/Picker/index.js';
-import api from './src/Services/api.js';
+import PickerItem from './src/Picker';
+import { api } from './src/Services/api';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
+  const [moedas, setMoedas] = useState([]);
+  const [moedaSelecionada, setMoedaSelecionada] = useState(null)
 
-  useEffect(()=> {
-    async function loadPage() {
-      setTimeout(()=> {
-        setLoading(false);
-      }, 2000);
+ useEffect(()=>{
+    async function loadMoedas() {
+      const resposta = await api.get("all")
+      let arrayMoedas = [];
+      Object.keys(resposta.data).map((key)=>{
+        arrayMoedas.push({
+          key: key,
+          label: key,
+          value: key
+        })
+      })
+      setMoedas(arrayMoedas)
+      setLoading(false)
+      setMoedaSelecionada(arrayMoedas[0].key)
     }
-    loadPage();
-  }, []);
+    loadMoedas()
+ },[])
 
   if(loading) {
     return(
@@ -26,7 +37,11 @@ export default function App() {
       <View style={styles.container}>
         <View style={styles.card}>
           <Text style={styles.titulo}>Selecione sua Moeda</Text>
-          <Pickeritem/>
+          <PickerItem 
+            moedas={moedas}
+            moedaSelecionada={moedaSelecionada}
+            quandoMudar={(moeda)=> setMoedaSelecionada(moeda)}
+          />
           <Text style={styles.titulo}>Digite uma valor para converter em (R$)</Text>
           <TextInput style={styles.input} keyboardType='numeric' placeholder='EX: 1.50'></TextInput>
           <TouchableOpacity style={styles.botao}>
@@ -76,7 +91,8 @@ const styles = StyleSheet.create({
   },
   textoBotao: {
     textAlign: 'center',
-    fontSize: 20
+    fontSize: 20,
+    color: '#FFF'
   },
   card2: {
     width: '90%',
