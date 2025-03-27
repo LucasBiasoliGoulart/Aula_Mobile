@@ -8,7 +8,10 @@ export default function App() {
   const [moedas, setMoedas] = useState([]);
   const [moedaSelecionada, setMoedaSelecionada] = useState(null);
 
-  const [moedaBValor, setMoedaBValor] = useState(0);
+  // Valores
+  const [moedaBValor, setMoedaBValor] = useState("");
+  const [valorMoeda, setValorMoeda] = useState(null);
+  const [valorConvertido, setValorConvertido] = useState(0)
 
   useEffect(()=>{
     async function loadMoedas() {
@@ -29,10 +32,13 @@ export default function App() {
   },[])
 
   // Converter os valores das Moedas
-  function converter() {
-    console.log(moedaBValor)
+  async function converter() {
+    const resultado = await api.get(`all/${moedaSelecionada}-BRL`);
+    let convercao = resultado.data[moedaSelecionada].ask * parseFloat(moedaBValor)
+    setValorMoeda(moedaBValor)
+    setValorConvertido(`${convercao.toLocaleString("pt-BR", {style: "currency", currency: "BRL"})}`)
     Keyboard.dismiss();
-    setMoedaBValor(0);
+    setMoedaBValor("");
   }
 
   if(loading) {
@@ -65,9 +71,9 @@ export default function App() {
           </TouchableOpacity>
         </View>
         <View style={styles.card2}>
-          <Text style={styles.texto}>USD</Text>
+          <Text style={styles.texto}>{valorMoeda} {moedaSelecionada}</Text>
           <Text style={styles.texto}>Corresponde a</Text>
-          <Text style={styles.texto}>R$</Text>
+          <Text style={styles.texto}>R$ {valorConvertido}</Text>
         </View>
       </View>
     );
@@ -84,12 +90,15 @@ const styles = StyleSheet.create({
   card: {
     width: '90%',
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 5,
     backgroundColor: '#FFF',
   },
   titulo: {
-    fontSize: 19,
-    fontWeight: 'bold'
+    fontSize: 27,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 15,
+    color: '#34C25E'
   },
   subtitulo: {
     fontWeight: 'bold',
@@ -117,7 +126,7 @@ const styles = StyleSheet.create({
   card2: {
     width: '90%',
     padding: 5,
-    borderRadius: 10,
+    borderRadius: 5,
     backgroundColor: '#FFF',
     alignItems: 'center',
     justifyContent: 'center',
