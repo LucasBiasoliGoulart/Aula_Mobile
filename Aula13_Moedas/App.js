@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ActivityIndicator, Keyboard } from 'react-native';
 import PickerItem from './src/Picker';
 import { api } from './src/Services/api';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [moedas, setMoedas] = useState([]);
-  const [moedaSelecionada, setMoedaSelecionada] = useState(null)
+  const [moedaSelecionada, setMoedaSelecionada] = useState(null);
 
- useEffect(()=>{
+  const [moedaBValor, setMoedaBValor] = useState(0);
+
+  useEffect(()=>{
     async function loadMoedas() {
       const resposta = await api.get("all")
       let arrayMoedas = [];
@@ -24,7 +26,14 @@ export default function App() {
       setMoedaSelecionada(arrayMoedas[0].key)
     }
     loadMoedas()
- },[])
+  },[])
+
+  // Converter os valores das Moedas
+  function converter() {
+    console.log(moedaBValor)
+    Keyboard.dismiss();
+    setMoedaBValor(0);
+  }
 
   if(loading) {
     return(
@@ -36,15 +45,22 @@ export default function App() {
     return (
       <View style={styles.container}>
         <View style={styles.card}>
-          <Text style={styles.titulo}>Selecione sua Moeda</Text>
+          <Text style={styles.titulo}>Convertor de Moedas</Text>
+          <Text style={styles.subtitulo}>Selecione sua Moeda</Text>
           <PickerItem 
             moedas={moedas}
             moedaSelecionada={moedaSelecionada}
             quandoMudar={(moeda)=> setMoedaSelecionada(moeda)}
           />
-          <Text style={styles.titulo}>Digite uma valor para converter em (R$)</Text>
-          <TextInput style={styles.input} keyboardType='numeric' placeholder='EX: 1.50'></TextInput>
-          <TouchableOpacity style={styles.botao}>
+          <Text style={styles.subtitulo}>Digite uma valor para converter em (R$)</Text>
+          <TextInput 
+            style={styles.input} 
+            keyboardType='numeric' 
+            placeholder='EX: 1.50' 
+            value={moedaBValor}
+            onChangeText={(valor)=> setMoedaBValor(valor)}
+          ></TextInput>
+          <TouchableOpacity style={styles.botao} onPress={converter}>
             <Text style={styles.textoBotao}>Converter</Text>
           </TouchableOpacity>
         </View>
@@ -72,6 +88,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   titulo: {
+    fontSize: 19,
+    fontWeight: 'bold'
+  },
+  subtitulo: {
     fontWeight: 'bold',
     fontSize: 17
   },
