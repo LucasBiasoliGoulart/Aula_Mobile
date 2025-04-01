@@ -6,11 +6,11 @@ class App extends Component {
     super(props);
     this.state = {
       numero: 0,
-      botao: 'Iniciar'
+      botao: 'Iniciar',
+      ultimo: null
     };
     this.iniciar = this.iniciar.bind(this);
     this.limpar = this.limpar.bind(this);
-
     this.time = null;
   }
 
@@ -30,9 +30,12 @@ class App extends Component {
 
   // Limpar o cronometro
   limpar() {
-    clearInterval(this.time);
-    this.time = null
+    if(this.time != null) {
+      clearInterval(this.time);
+      this.time = null
+    }
     this.setState({
+      ultimo: this.state.numero,
       numero: 0,
       botao: 'Iniciar'
     });
@@ -49,6 +52,11 @@ class App extends Component {
           <TouchableOpacity style={styles.botao} onPress={this.limpar}>
             <Text style={styles.btnTexto}>Limpar</Text>
           </TouchableOpacity>
+        </View>
+        <View style={styles.areaUltimo}>
+          <Text style={styles.textoUltimo}>
+            {this.state.ultimo > 0 ? 'Ultimo tempo: ' + this.state.ultimo.toFixed(2) + 's' : ''}
+          </Text>
         </View>
       </View>
     );
@@ -84,6 +92,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#000'
+  },
+  areaUltimo: {
+    marginTop: 50
+  },
+  textoUltimo: {
+    fontSize: 25, 
+    fontWeight: 'bold', 
+    fontStyle: 'italic'
   }
 });
 
