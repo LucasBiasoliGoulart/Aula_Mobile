@@ -5,28 +5,50 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      numeroPessoas: ""
+      numeroPessoas: "",
+      imagem: require('./src/mesa.png')
     }
   }
 
-  // Adicionar pessoas
+  // Adicionar pessoas e mudar a imagem de mesa
   adicionarPessoa = (value) => {
-    this.setState({ numeroPessoas: value });
+    this.setState({ numeroPessoas: value }, () => {
+      this.mudarImagem();
+    });
   }
 
   // Limpar campo
   limparCampo = () => {
-    this.setState({ numeroPessoas: "" });
+    this.setState({ numeroPessoas: "", imagem: require('./src/mesa.png') });
+  }
+
+  // Mudar a imagem com número de pessoas
+  mudarImagem = () => {
+    const { numeroPessoas } = this.state;
+    const pessoas = parseInt(numeroPessoas, 10);
+    let imagem;
+
+    if(pessoas < 2) {
+      imagem = require('./src/mesa2.png');
+    }else if (pessoas < 4) {
+      imagem = require('./src/mesa4.png');
+    }else if(pessoas < 6) {
+      imagem = require('./src/mesa6.png');
+    }else {
+      imagem = require('./src/mesaMaior.png');
+    }
+
+    this.setState({ imagem });
   }
 
   resultado = () => {
-    alert(`Número de pessoas na mesa: ${this.state.numeroPessoas}`);
+    alert(`Mesa para: ${this.state.numeroPessoas}`);
   }
   render() {
     return(
       <View style={styles.container}>
-        <Text style={styles.titulo}>Gerenciador de Mesa</Text>
-        <Image source={require('./src/mesa.png')} style={{ width: 250, height: 250}}></Image>
+        <Text style={styles.titulo}>Restaurante</Text>
+        <Image source={this.state.imagem} style={{ width: 250, height: 250}}></Image>
         <View style={{ margin: 10 }}>
           <Text style={styles.texto}>Adicionar:</Text>
           <TextInput 
@@ -44,7 +66,6 @@ class App extends Component {
             <Text style={styles.btnTexto}>Limpar</Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.textoResultado}>Número de Pessoas: {this.state.numeroPessoas}</Text>
       </View>
     );
   }
@@ -78,7 +99,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   botoes: {
-    width: 140,
+    width: 145,
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
@@ -90,11 +111,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold"
   },
-  textoResultado: {
-    color: "#FFAA00",
-    fontSize: 20,
-    marginTop: 30
-  }
 });
 
 export default App;
