@@ -1,43 +1,36 @@
-import React, { useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, Animated } from 'react-native';
+import React, { useRef }from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import * as Animatable from 'react-native-animatable';
+
+const BotaoAnimado = Animatable.createAnimatableComponent(TouchableOpacity);
 
 export default function App() {
-  const larAnimada = useRef(new Animated.Value(0)).current;
-  const altAnimada = useRef(new Animated.Value(50)).current;
-  //const opacAnimada = useRef(new Animated.Value(1)).current;
+  const refBotao = useRef(null);
+  const refTexto = useRef(null);
 
-  useEffect(()=> {
-      Animated.sequence([
-        Animated.timing(larAnimada, {
-          toValue: 100,
-          duration: 1000,
-          useNativeDriver: false
-        }),
-        Animated.timing(altAnimada, {
-          toValue: 100,
-          duration: 1000,
-          useNativeDriver: false
-        }),
-        /*Animated.timing(opacAnimada, {
-          toValue: 0,
-          duration: 2000,
-          useNativeDriver: false
-        }),*/
-      ]).start(()=> {
-        alert('Hello World')
-      });
-  }, []);
-
-  let porcentagemLargura = larAnimada.interpolate({
-    inputRange: [0, 100],
-    outputRange: ['0%', '100%']
-  })
+  function clicar() {
+    refBotao.current.shake();
+    refTexto.current.bounceIn();
+  }
 
   return(
     <View style={styles.container}>
-      <Animated.View style={[styles.barra, {width: porcentagemLargura, height: altAnimada}]}>
-        <Text style={styles.textoBarra}>Carregando</Text>
-      </Animated.View>
+      <Animatable.Text 
+      animation="bounce" 
+      iterationCount={3}
+      duration={5000}
+      ref={refTexto}
+      style={styles.texto}>Hello World!</Animatable.Text>
+
+      <BotaoAnimado 
+      animation="shake" 
+      iterationCount={3}
+      duration={5000}
+      style={styles.botao}
+      onPress={clicar}
+      ref={refBotao}>
+        <Text style={{ color: "#FFF", fontSize: 20 }}>Click</Text>
+      </BotaoAnimado>
     </View>
   );
 }
@@ -49,15 +42,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FFF'
   },
-  barra: {
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: "#0000ff"
+  texto: {
+    fontSize: 40,
+    fontWeight: 'bold',
   },
-  textoBarra: {
-    color: "#FFF",
-    fontSize: 20,
-    fontWeight: 'bold'
+  botao: {
+    width: 300,
+    height: 50,
+    borderRadius: 5,
+    backgroundColor: "#0000ff",
+    alignItems: "center", 
+    justifyContent: "center",
+    marginTop: 10
   }
 });
