@@ -2,20 +2,19 @@ import React, { useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, Animated } from 'react-native';
 
 export default function App() {
-  const larAnimada = useRef(new Animated.Value(150)).current;
+  const larAnimada = useRef(new Animated.Value(0)).current;
   const altAnimada = useRef(new Animated.Value(50)).current;
   //const opacAnimada = useRef(new Animated.Value(1)).current;
 
   useEffect(()=> {
-    Animated.loop(
       Animated.sequence([
         Animated.timing(larAnimada, {
-          toValue: 300,
+          toValue: 100,
           duration: 1000,
           useNativeDriver: false
         }),
-        Animated.timing(larAnimada, {
-          toValue: 150,
+        Animated.timing(altAnimada, {
+          toValue: 100,
           duration: 1000,
           useNativeDriver: false
         }),
@@ -24,12 +23,19 @@ export default function App() {
           duration: 2000,
           useNativeDriver: false
         }),*/
-      ])
-    ).start()
+      ]).start(()=> {
+        alert('Hello World')
+      });
   }, []);
+
+  let porcentagemLargura = larAnimada.interpolate({
+    inputRange: [0, 100],
+    outputRange: ['0%', '100%']
+  })
+
   return(
     <View style={styles.container}>
-      <Animated.View style={[styles.barra, {width: larAnimada, height: altAnimada}]}>
+      <Animated.View style={[styles.barra, {width: porcentagemLargura, height: altAnimada}]}>
         <Text style={styles.textoBarra}>Carregando</Text>
       </Animated.View>
     </View>
