@@ -12,17 +12,14 @@ export default function App() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [corTextoErro, setCorTextoErro] = useState('#000');
-  const [corBotaoErro, setCorBotaoErro] = useState('#000');
 
   function validarLogin() {
     if(email !== "example@gmail.com" || senha !== "123") {
       setCorTextoErro('#D60C0C');
-      setCorBotaoErro('#D60C0C')
       refBotao.current.shake();
       refTexto.current.bounceIn();
     }else {
       setCorTextoErro("#000");
-      setCorBotaoErro("#000");
     }
   }
 
@@ -62,7 +59,7 @@ export default function App() {
       animation="shake" 
       iterationCount={1}
       duration={5000}
-      style={[styles.botao, { backgroundColor: corBotaoErro }]}
+      style={styles.botao}
       onPress={validarLogin}
       ref={refBotao}>
         <Text style={{ color: "#FFF", fontSize: 20 }}>Cadastre-se</Text>
