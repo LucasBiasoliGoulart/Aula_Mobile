@@ -30,6 +30,10 @@ export default function App() {
         }}></Pilha.Screen>
          <Pilha.Screen name="Contato" component={Contato} options={{
           title: 'Tela Contato',
+          headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: "#1b1b1b"
+          },
         }}></Pilha.Screen>
       </Pilha.Navigator>
 
