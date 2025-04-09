@@ -1,0 +1,7 @@
+Aula 20 - Icones & Navega
+
+React Native - Icones
+https://feathericons.com/
+
+React Native - instalar Navigation
+https://reactnavigation.org/docs/getting-started
