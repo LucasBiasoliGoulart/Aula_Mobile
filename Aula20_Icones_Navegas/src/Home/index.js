@@ -1,21 +1,22 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 export default function App() {
-    const navegacao = useNavigation();
-    function verFilmes() {
-        navegacao.navigate("Filmes")
-    }
-    return(
-        <View style={styles.container}>
-            <Text style={styles.titulo}>Bem Vindo</Text>
-            <Text style={styles.subtitulo}>Você gosta de filmes, sabe qual quer assistir?</Text>
-            <TouchableOpacity style={styles.botao} onPress={verFilmes}>
-                <Text style={styles.btnTexto}>Ver Filmes</Text>
-            </TouchableOpacity>
-        </View>
-    );
+  const navegacao = useNavigation();
+  function verFilmes() {
+    navegacao.navigate("Filmes")
+  }
+  return(
+    <View style={styles.container}>
+      <Image source={require('./cinema.png')} style={{ width: 290, height: 290}}></Image>
+      <Text style={styles.titulo}>Bem Vindo</Text>
+      <Text style={styles.subtitulo}>Você gosta de filmes, sabe qual quer assistir?</Text>
+      <TouchableOpacity style={styles.botao} onPress={verFilmes}>
+        <Text style={styles.btnTexto}>Ver Filmes</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
