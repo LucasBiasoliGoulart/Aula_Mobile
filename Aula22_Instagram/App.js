@@ -29,6 +29,13 @@ class App extends Component {
           titulo: 'Beatriz Almeida',
           nomePerfil: 'Beatriz Almeida'
         },
+        {
+          id: '4',
+          perfil: 'https://i.pinimg.com/originals/19/25/64/1925642e1dd0f078ab7aa555254e33cc.jpg',
+          imagem: 'https://th.bing.com/th/id/OIP.NQb3Qwi9QChPvxq1-GRGpwHaFp?w=852&h=650&rs=1&pid=ImgDetMain',
+          titulo: 'João Silva',
+          nomePerfil: 'João Silva'
+        },
       ]
     }
   }
@@ -37,7 +44,10 @@ class App extends Component {
       <View style={style.container}>
         <View style={style.banner}>
           <Text style={style.titulo}>Instagram</Text>
-          <IconeEXP name='heart' size={30}/>
+          <View style={{ alignItems: 'center', flexDirection: 'row', gap: 10 }}>
+            <IconeEXP name='heart' size={35}/>
+            <IconeEXP name='message-circle' size={35}/>
+          </View>
         </View>
         <View style={style.banner2}>
           <Image source={require('./img/foto1.jpg')} style={style.fotos}></Image>

@@ -60,7 +60,7 @@ const style = StyleSheet.create({
     },
     imgPostagem: {
         width: '100%',
-        height: 400,
+        height: 430,
     },
     titulo: {
         fontSize: 20,
