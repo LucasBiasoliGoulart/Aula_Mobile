@@ -12,6 +12,7 @@ export default function Home() {
       <Text>Home</Text>
       <TextInput></TextInput>
       <Button title='ir para detalhes' onPress={chamaDetalhe}></Button>
+      <Button title='Abrir Drawer' onPress={()=> navegacao.openDrawer}></Button>
     </View>
   );
 }

@@ -8,7 +8,6 @@ import Sobre from '../pages/Sobre/index';
 import Contato from '../pages/Contato/index';
 
 //const Tab = createBottomTabNavigator();
-const Drawer = createDrawerNavigator();
 
 /*export default function Rotas() {
   return(
@@ -40,10 +39,25 @@ const Drawer = createDrawerNavigator();
   );
 }*/
 
+import CustomDrawer from '../components/CustomDrawer';
+
+const Drawer = createDrawerNavigator();
+
 // Criando Drawer
 export default function Rotas() {
   return(
-    <Drawer.Navigator>
+    <Drawer.Navigator
+    drawerContent={CustomDrawer}
+    screenOptions={{
+      headerShown: true,
+      drawerStyle: {
+        backgroundColor: '#FFF'
+      },
+      drawerActiveBackgroundColor: '#00B2FF',
+      drawerActiveTintColor: '#FFF',
+      drawerInactiveBackgroundColor: '#EEE',
+      drawerInactiveTintColor: '#000'
+    }}>
       <Drawer.Screen name='HomeStack' component={Stackrotas}/>
       <Drawer.Screen name='Sobre' component={Sobre}/>
       <Drawer.Screen name='Contato' component={Contato}/>
