@@ -39,7 +39,6 @@ export default function Fire() {
       alert("Por favor, preencha todos os campos!");
       return;
     }
-    
     // Adicionar os dados no banco
     await addDoc(collection(db, "users"), {
       nome: nome,
