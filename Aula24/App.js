@@ -1,108 +1,56 @@
-import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, FlatList } from 'react-native';
-import { doc, onSnapshot, collection, addDoc } from 'firebase/firestore';
-import { db } from './src/firebaseConnection';
-import { UsersList } from './src/users';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import { launchImageLibraryAsync, launchCameraAsync } from 'expo-image-picker';
 
-// Aula 23 - Banco
-export default function Fire() {
-  const[nome, setNome] = useState("");
-  const[idade, setIdade] = useState("")
-  const[cargo, setCargo] = useState("");
-  const[mostrarFormulario, setMostrarFormulario] = useState(true);
+// Aula 24 - Album e Camera
+export default function App() {
+  const[photo, setPhoto] = useState(null);
 
-  const[users, setUsers] = useState([])
-
-  useEffect(()=> {
-    async function getDados() {
-      const userRef = collection(db, "users");
-      onSnapshot(userRef , (snapshot)=> {
-        let lista = [];
-        snapshot.forEach((doc)=> {
-          lista.push({
-            id: doc.id,
-            nome: doc.data().nome,
-            idade: doc.data().idade,
-            cargo: doc.data().cargo,
-          })
-        })
-        setUsers(lista);
-      })
+  // Função de abrir o album
+  function openAlbum() {
+    const options = {
+      mediaType: 'Photo',
+      quality: 1,
+      selectionLimit: 1,
     }
-    getDados();
-  }, []);
+    launchImageLibraryAsync(options, (response) => {
+      if(response.didCancel) {
+        console.log("IMAGE PICKER CANCELADO");
+        return;
+      }else if(response.error) {
+        console.log("GEROU ERRO", response.errorMessage)
+        return;
+      }
+      console.log(response.assets);
+      setPhoto(response.assets[0].uri);
+    })
+  }
 
-  // Função para registrar os dados e limpar os campos
-  async function registraDados() {
-    // Verificação dos campos
-    if(nome.trim() === "" || idade.trim() === "" || cargo.trim() === "") {
-      alert("Por favor, preencha todos os campos!");
-      return;
+  // Função de abrir a camera
+  async function openCamera() {
+    const options = {
+      mediaType: 'Photo',
+      quality: 1,
+      selectionLimit: 1,
     }
-    // Adicionar os dados no banco
-    await addDoc(collection(db, "users"), {
-      nome: nome,
-      idade: idade,
-      cargo: cargo
-    });
-
-    // Limpar os campos do input
-    setNome('');
-    setIdade('');
-    setCargo('');
+    const response = await launchCameraAsync(options);
+    setPhoto(response.assets[0].uri);
   }
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontWeight: 'bold', fontSize: 30, textAlign: 'center' }}>FireBase</Text>
-      {mostrarFormulario && (
-        <View>
-          <View style={{ marginBottom: 5 }}>
-            <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Nome</Text>
-            <TextInput
-              value={nome}
-              onChangeText={(text) => setNome(text)}
-              placeholder="Digite seu nome"
-              style={styles.input}
-            />
-          </View>
-          <View style={{ marginBottom: 5 }}>
-            <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Idade</Text>
-            <TextInput
-              value={idade}
-              onChangeText={(text) => setIdade(text)}
-              placeholder="Digite sua idade"
-              keyboardType='numeric'
-              style={styles.input}
-            />
-          </View>
-          <View style={{ marginBottom: 5 }}>
-            <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Cargo</Text>
-            <TextInput
-              value={cargo}
-              onChangeText={(text) => setCargo(text)}
-              placeholder="Digite seu cargo"
-              style={styles.input}
-            />
-          </View>
-          <TouchableOpacity style={styles.botao} onPress={registraDados}>
-            <Text style={{ color: '#FFF', fontSize: 18 }}>Adicionar</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-      <TouchableOpacity style={styles.botao} onPress={()=> setMostrarFormulario(!mostrarFormulario)}>
-        <Text style={{ color: '#FFF', fontSize: 18 }}>
-          {mostrarFormulario ? 'Esconder Formulário' : 'Mostrar Formulário'}
-        </Text>
-      </TouchableOpacity>
+      <View style={styles.botoes}>
+        <TouchableOpacity style={styles.botao} onPress={openAlbum}>
+          <Text style={{ color: "#FFF" }}>Abrir album</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.botao} onPress={openCamera}>
+          <Text style={{ color: "#FFF" }}>Abrir camera</Text>
+        </TouchableOpacity>
+      </View>
 
-      <Text style={{ marginTop: 20, fontSize: 20 }}>Usuários:</Text>
-      <FlatList
-        data={users}
-        keyExtractor={(item)=> String(item.id)}
-        renderItem={({item})=> <UsersList data={item}/>}
-      >
-      </FlatList>
+      {photo !== null && (
+        <Image source={{ uri: photo }}/>
+      )}
     </View>
   );
 }
@@ -110,22 +58,21 @@ export default function Fire() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    marginTop: 50
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  botao: {
-    width: 360,
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: '#000',
+  botoes: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 10
+    flexDirection: 'row',
+    gap: 10
   },
-  input: {
-    width: 360,
-    height: 50,
+  botao: {
+    width: 140,
+    padding: 10,
     borderRadius: 5,
-    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#292929'
   }
 });
