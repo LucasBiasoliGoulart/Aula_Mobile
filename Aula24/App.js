@@ -44,10 +44,10 @@ export default function App() {
     <View style={styles.container}>
       <View style={styles.botoes}>
         <TouchableOpacity style={styles.botao} onPress={openAlbum}>
-          <Text style={{ color: "#FFF", fontSize: 20 }}>Abrir album</Text>
+          <Text style={{ color: "#FFF", fontSize: 17 }}>Abrir album</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.botao} onPress={openCamera}>
-          <Text style={{ color: "#FFF", fontSize: 20 }}>Abrir camera</Text>
+          <Text style={{ color: "#FFF", fontSize: 17 }}>Abrir camera</Text>
         </TouchableOpacity>
       </View>
 
