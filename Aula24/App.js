@@ -52,7 +52,7 @@ export default function App() {
       </View>
 
       {photo !== null && (
-        <Image source={{ uri: photo }} style={{ width: 200, height: 200 }}/>
+        <Image source={{ uri: photo }} style={styles.imagem}/>
       )}
     </View>
   );
@@ -77,5 +77,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#292929'
+  },
+  imagem: {
+    width: 200,
+    height: 200,
+    margin: 10,
   }
 });
