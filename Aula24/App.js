@@ -1,55 +1,58 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
-import { launchImageLibraryAsync, launchCameraAsync } from 'expo-image-picker';
+import * as ImagePicker from 'expo-image-picker';
 
 // Aula 24 - Album e Camera
 export default function App() {
   const[photo, setPhoto] = useState(null);
 
   // Função de abrir o album
-  function openAlbum() {
-    const options = {
-      mediaType: 'Photo',
-      quality: 1,
-      selectionLimit: 1,
+  async function openAlbum() {
+    const permisionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if(!permisionResult.granted) {
+      alert('Permisão para acessar a galeria foi negado!');
+      return;
     }
-    launchImageLibraryAsync(options, (response) => {
-      if(response.didCancel) {
-        console.log("IMAGE PICKER CANCELADO");
-        return;
-      }else if(response.error) {
-        console.log("GEROU ERRO", response.errorMessage)
-        return;
-      }
-      console.log(response.assets);
-      setPhoto(response.assets[0].uri);
-    })
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+      allowsEditing: false
+    });
+    if(!result.canceled) {
+      setPhoto(result.assets[0].uri);
+    }
   }
 
   // Função de abrir a camera
   async function openCamera() {
-    const options = {
-      mediaType: 'Photo',
-      quality: 1,
-      selectionLimit: 1,
+    const permisionResult = await ImagePicker.requestCameraPermissionsAsync();
+    if(!permisionResult.granted) {
+      alert('Permissão para acessar a câmera foi negado!');
+      return;
     }
-    const response = await launchCameraAsync(options);
-    setPhoto(response.assets[0].uri);
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+      allowsEditing: false
+    });
+    if(!result.canceled) {
+      setPhoto(result.assets[0].uri);
+    }
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.botoes}>
         <TouchableOpacity style={styles.botao} onPress={openAlbum}>
-          <Text style={{ color: "#FFF" }}>Abrir album</Text>
+          <Text style={{ color: "#FFF", fontSize: 20 }}>Abrir album</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.botao} onPress={openCamera}>
-          <Text style={{ color: "#FFF" }}>Abrir camera</Text>
+          <Text style={{ color: "#FFF", fontSize: 20 }}>Abrir camera</Text>
         </TouchableOpacity>
       </View>
 
       {photo !== null && (
-        <Image source={{ uri: photo }}/>
+        <Image source={{ uri: photo }} style={{ width: 200, height: 200 }}/>
       )}
     </View>
   );
@@ -68,7 +71,7 @@ const styles = StyleSheet.create({
     gap: 10
   },
   botao: {
-    width: 140,
+    width: 170,
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
