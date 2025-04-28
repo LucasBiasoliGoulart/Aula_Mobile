@@ -1,8 +1,27 @@
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import Icone from '@expo/vector-icons/Feather';
+import { getAuth, createUserWithEmailandPassword } from 'firebase/auth';
 import FromUser from './src/fromUser';
+import { useState } from 'react';
+ 
+const auth = getAuth();
 
 // Aula 23 - Banco
 export default function Fire() {
+  const[email, setEmail] = useState('');
+  const[senha, setSenha] = useState('');
+
+  // Função de criar um usuário
+  const criarUsuario = async () => {
+    try {
+      await createUserWithEmailandPassword(auth, email, senha);
+      alert("Cadastro realizado com sucesso!", "Agora você pode fazer login.");
+    }catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert("Erro", errorMessage)
+    }
+  }
   return (
     <View style={styles.container}>
       {/*<FromUser></FromUser>*/}
@@ -10,6 +29,8 @@ export default function Fire() {
       <View style={{ marginBottom: 5 }}>
           <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Email</Text>
           <TextInput  
+          value={email}
+          onChangeText={setEmail}
           placeholder="Digite o email"
           style={styles.input}
           />
@@ -17,11 +38,14 @@ export default function Fire() {
       <View style={{ marginBottom: 5 }}>
           <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Senha</Text>
           <TextInput  
+          value={senha}
+          onChangeText={setSenha}
           placeholder="Digite a senha"
           style={styles.input}
           />
+          <Icone name='eye' size={20} style={styles.icone}/>
       </View>
-      <TouchableOpacity style={styles.botao}>
+      <TouchableOpacity style={styles.botao} onPress={criarUsuario}>
         <Text style={{ color: '#FFF', fontSize: 18 }}>Criar um conta</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.botao}>
@@ -57,4 +81,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 10
   },
+  icone: {
+    width: '12%',
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    left: '85%',
+    top: '39%'
+  }
 });

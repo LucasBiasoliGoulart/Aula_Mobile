@@ -44,7 +44,7 @@ export function UsersList({data}) {
             animationType="slide"
             onRequestClose={()=> setModalVisible(false)}>
                 <View style={{ margin: 5, alignItems: 'center', justifyContent: 'center'}}>
-                    <Text style={{ fontSize: 30, fontWeight: 'bold'}}>Editar Usuário</Text>
+                    <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Editar Usuário</Text>
                     <View>
                         <View style={{ marginBottom: 5 }}>
                             <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Nome</Text>
