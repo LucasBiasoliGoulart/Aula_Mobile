@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import * as MediaLibrary from 'expo-media-library';
 
 // Aula 24 - Album e Camera
 export default function App() {
@@ -26,7 +27,8 @@ export default function App() {
   // Função de abrir a camera
   async function openCamera() {
     const permisionResult = await ImagePicker.requestCameraPermissionsAsync();
-    if(!permisionResult.granted) {
+    const libPermisson = await MediaLibrary.requestPermissionsAsync(); // Para Salvar 
+    if(!permisionResult.granted || !libPermisson.granted) {
       alert('Permissão para acessar a câmera foi negado!');
       return;
     }
@@ -37,6 +39,19 @@ export default function App() {
     });
     if(!result.canceled) {
       setPhoto(result.assets[0].uri);
+      savePhoto(result.assets[0].uri);
+    }
+  }
+
+  // Função de salvar imagem
+  async function savePhoto(uri) {
+    try {
+      const asset = await MediaLibrary.createAssetAsync(uri);
+      await MediaLibrary.createAlbumAsync('Minhas fotos', asset, false);
+      alert('Sucesso!', 'Fotos salvas na galeria!');
+    }catch (error) {
+      console.log(error);
+      alert('Erro', 'Não foi possivel salvar essa imagem');
     }
   }
 
@@ -44,13 +59,12 @@ export default function App() {
     <View style={styles.container}>
       <View style={styles.botoes}>
         <TouchableOpacity style={styles.botao} onPress={openAlbum}>
-          <Text style={{ color: "#FFF", fontSize: 17 }}>Abrir album</Text>
+          <Text style={{ color: "#FFF", fontSize: 17, fontWeight: 'bold' }}>Abrir album</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.botao} onPress={openCamera}>
-          <Text style={{ color: "#FFF", fontSize: 17 }}>Abrir camera</Text>
+          <Text style={{ color: "#FFF", fontSize: 17, fontWeight: 'bold' }}>Abrir camera</Text>
         </TouchableOpacity>
       </View>
-
       {photo !== null && (
         <Image source={{ uri: photo }} style={styles.imagem}/>
       )}
@@ -79,8 +93,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#292929'
   },
   imagem: {
-    width: 200,
-    height: 200,
+    width: 350,
+    height: 350,
     margin: 10,
   }
 });
