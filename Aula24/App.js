@@ -27,7 +27,7 @@ export default function App() {
   // Função de abrir a camera
   async function openCamera() {
     const permisionResult = await ImagePicker.requestCameraPermissionsAsync();
-    const libPermisson = await MediaLibrary.requestPermissionsAsync(); // Para Salvar 
+    const libPermisson = await MediaLibrary.requestPermissionsAsync();
     if(!permisionResult.granted || !libPermisson.granted) {
       alert('Permissão para acessar a câmera foi negado!');
       return;
@@ -59,10 +59,10 @@ export default function App() {
     <View style={styles.container}>
       <View style={styles.botoes}>
         <TouchableOpacity style={styles.botao} onPress={openAlbum}>
-          <Text style={{ color: "#FFF", fontSize: 17, fontWeight: 'bold' }}>Abrir album</Text>
+          <Text style={{ color: "#FFF", fontSize: 20, fontWeight: 'bold' }}>Abrir album</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.botao} onPress={openCamera}>
-          <Text style={{ color: "#FFF", fontSize: 17, fontWeight: 'bold' }}>Abrir camera</Text>
+          <Text style={{ color: "#FFF", fontSize: 20, fontWeight: 'bold' }}>Abrir camêra</Text>
         </TouchableOpacity>
       </View>
       {photo !== null && (
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#292929'
+    backgroundColor: '#000'
   },
   imagem: {
     width: 350,
