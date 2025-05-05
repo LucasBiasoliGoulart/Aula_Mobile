@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, FlatList } from 'react-native';
 import { onSnapshot, collection, addDoc } from 'firebase/firestore';
-import { db } from './firebaseConnection';
+import { db, auth } from './firebaseConnection';
 import { UsersList } from './users';
+import { signOut } from 'firebase/auth';
 
 export default function Fire() {
   const[nome, setNome] = useState("");
@@ -52,48 +53,53 @@ export default function Fire() {
     setCargo('');
   }
 
+  // Exite
+  async function exiteLogin() {
+    await signOut(auth)
+  }
+
   return (
     <View style={styles.container}>
-        <Text style={{ fontWeight: 'bold', fontSize: 30, textAlign: 'center' }}>FireBase</Text>
-            {mostrarFormulario && (
-                <View>
-                    <View style={{ marginBottom: 5 }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Nome</Text>
-                    <TextInput
-                    value={nome}
-                    onChangeText={(text) => setNome(text)}
-                    placeholder="Digite seu nome"
-                    style={styles.input}
-                    />
-                </View>
-                <View style={{ marginBottom: 5 }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Idade</Text>
-                    <TextInput
-                    value={idade}
-                    onChangeText={(text) => setIdade(text)}
-                    placeholder="Digite sua idade"
-                    keyboardType='numeric'
-                    style={styles.input}
-                    />
-                </View>
-                <View style={{ marginBottom: 5 }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Cargo</Text>
-                    <TextInput
-                    value={cargo}
-                    onChangeText={(text) => setCargo(text)}
-                    placeholder="Digite seu cargo"
-                    style={styles.input}
-                    />
-                </View>
-                <TouchableOpacity style={styles.botao} onPress={registraDados}>
-                    <Text style={{ color: '#FFF', fontSize: 18 }}>Adicionar</Text>
-                </TouchableOpacity>
-              </View>
+      <Text style={{ fontWeight: 'bold', fontSize: 30, textAlign: 'center' }}>FireBase</Text>
+      {mostrarFormulario && (
+        <View>
+          <View style={{ marginBottom: 5 }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Nome</Text>
+          <TextInput
+            value={nome}
+            onChangeText={(text) => setNome(text)}
+            placeholder="Digite seu nome"
+            style={styles.input}
+          />
+          </View>
+            <View style={{ marginBottom: 5 }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Idade</Text>
+            <TextInput
+              value={idade}
+              onChangeText={(text) => setIdade(text)}
+              placeholder="Digite sua idade"
+              keyboardType='numeric'
+              style={styles.input}
+            />
+          </View>
+            <View style={{ marginBottom: 5 }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Cargo</Text>
+            <TextInput
+              value={cargo}
+              onChangeText={(text) => setCargo(text)}
+              placeholder="Digite seu cargo"
+              style={styles.input}
+            />
+            </View>
+              <TouchableOpacity style={styles.botao} onPress={registraDados}>
+                <Text style={{ color: '#FFF', fontSize: 18 }}>Adicionar</Text>
+              </TouchableOpacity>
+            </View>
             )}
             <TouchableOpacity style={styles.botao} onPress={()=> setMostrarFormulario(!mostrarFormulario)}>
-                <Text style={{ color: '#FFF', fontSize: 18 }}>
-                    {mostrarFormulario ? 'Esconder Formulário' : 'Mostrar Formulário'}
-                </Text>
+              <Text style={{ color: '#FFF', fontSize: 18 }}>
+                {mostrarFormulario ? 'Esconder Formulário' : 'Mostrar Formulário'}
+              </Text>
             </TouchableOpacity>
       
             <Text style={{ marginTop: 20, fontSize: 20 }}>Usuários:</Text>
@@ -103,6 +109,9 @@ export default function Fire() {
             renderItem={({item})=> <UsersList data={item}/>}
             >
             </FlatList>
+            <TouchableOpacity style={styles.botaoExite} onPress={exiteLogin}>
+              <Text style={{ color: "#FFF", fontSize: 18 }}>Exite</Text>
+            </TouchableOpacity>
     </View>
   );
 }
@@ -126,5 +135,14 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 5,
     borderWidth: 1,
-  }
+  },
+  botaoExite: {
+    width: 360,
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#C61616',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10
+  },
 });
