@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Aula25_Componentes_estilizados",
-    "slug": "Aula25_Componentes_estilizados",
+    "name": "Aula25_Styled",
+    "slug": "Aula25_Styled",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
