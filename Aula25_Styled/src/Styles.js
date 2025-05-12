@@ -12,6 +12,4 @@ export const Texto = styled.Text`
   color: dodgerblue;
 `;
 
-export const Botao = styled.TouchableOpacity`
- 
-`;
+export const Botao = styled.TouchableOpacity``;
