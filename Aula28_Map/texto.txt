@@ -1,0 +1,3 @@
+1- Fazer uma função ONPRESS dentro do MapView que crie um novo Marker com título novo ponto e descrição com a latitude e longitude;
+2- Utilizar a função: onRegionChange para ficar atualizando em tempo real na tela a Latitude e longitude;
+3- Exibir sua localização em tempo real na tela;
