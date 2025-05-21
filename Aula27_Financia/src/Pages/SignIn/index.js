@@ -8,12 +8,12 @@ export default function SignIn() {
   const {signIn} = useContext(AuthContext);
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [password, setPassword] = useState('');
 
   function handleSignIn() {
     //alert('Bem Vindo');
     //console.log(email, senha);
-    signIn();
+    signIn(email, password);
   }
   return (
     <Background>
@@ -21,11 +21,18 @@ export default function SignIn() {
         <Logo source={require("../../Assets/Logo.png")}/>
         <AreaInput>
           <Text style={{ fontWeight: 'bold' }}>Email</Text>
-          <Input placeholder="Digite seu email" value={email} onChangeText={(text)=> setEmail(text)}/>
+          <Input 
+            placeholder="Digite seu email" 
+            value={email} onChangeText={(text)=> setEmail(text)}
+          />
         </AreaInput>
         <AreaInput>
           <Text style={{ fontWeight: 'bold' }}>Senha</Text>
-          <Input placeholder="Digite sua senha" keyboardType="numeric" value={senha} onChangeText={(text)=> setSenha(text)} secureTextEntry={true}/>
+          <Input 
+            placeholder="Digite sua senha" 
+            keyboardType="numeric" value={password} onChangeText={(text)=> setPassword(text)} 
+            secureTextEntry={true}
+          />
         </AreaInput>
         <Botao activeOpacity={0.5} onPress={handleSignIn}>
           <Text style={{ color: "#FFF", fontSize: 17 }}>Acessar</Text>
