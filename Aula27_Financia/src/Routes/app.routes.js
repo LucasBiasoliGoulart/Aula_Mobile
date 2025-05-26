@@ -1,4 +1,3 @@
-import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Home from '../Pages/Home/index';
 import Registrando from '../Pages/Registro/index'
