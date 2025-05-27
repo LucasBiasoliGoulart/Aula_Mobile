@@ -1,15 +1,60 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import MapView from 'react-native-maps';
 import Icone from '@expo/vector-icons/Feather';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { useRef } from 'react';
+import * as Location from 'expo-location';
 
 export default function App() {
   const[paisSelecionado, setPaisSelecionado] = useState({ nome: '', resumo: '' });
   const mapRef = useRef(null);
   const[marcadores, setMarcadores] = useState([]);
-  const[regiaoAtual, setRegiaoAtual] = useState(null)
+  const[regiaoAtual, setRegiaoAtual] = useState(null);
+
+  // Função para obter localização em tempo real
+  useEffect(()=> {
+    (async () => {
+      // Solicita permissão
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if(status !== 'granted') {
+        console.log('Permissão negada para acessar a localização.');
+        return;
+      }
+
+      // Obter a localização em tempo real
+      const subscriber = await Location.watchPositionAsync(
+        {
+          accuracy: Location.Accuracy.Highest,
+          timeInterval: 5000, // 5 segundos
+          distanceInterval: 10, // A cada 10 metros
+        },
+        (localizacao) => {
+          const {latitude, longitude} = localizacao.coords
+
+          // Atualiza o mapa para uma nova localização
+          setRegiaoAtual({
+            latitude,
+            longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01
+          });
+
+          if(mapRef.current) {
+            mapRef.current.animateToRegion({
+              latitude,
+              longitude,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
+            }, 1000);
+          }
+        }
+      );
+      return () => {
+        subscriber?.remove(); // Encerrar o rastreio ao desmontar o componente
+      }
+    })();
+  }, []);
 
   // Mapeamento das bandeiras
   const bandeiras = {
@@ -151,7 +196,7 @@ export default function App() {
         zoomEnabled={true}
         rotateEnabled={true}
         showsTraffic={true}
-        style={{width:370, height:370}}
+        style={{width:390, height:370}}
         initialRegion={{
           latitude: -24.0329321,
           longitude: -46.6114519,
@@ -183,7 +228,7 @@ export default function App() {
         />
       </MapView>
       {regiaoAtual && (
-        <View style={{ padding: 10 }}>
+        <View style={{ padding: 5 }}>
           <Text>latitude: {regiaoAtual.latitude.toFixed(4)}</Text>
           <Text>longitude: {regiaoAtual.longitude.toFixed(4)}</Text>
         </View>
