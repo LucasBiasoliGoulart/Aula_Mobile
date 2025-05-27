@@ -9,6 +9,7 @@ export default function App() {
   const[paisSelecionado, setPaisSelecionado] = useState({ nome: '', resumo: '' });
   const mapRef = useRef(null);
   const[marcadores, setMarcadores] = useState([]);
+  const[regiaoAtual, setRegiaoAtual] = useState(null)
 
   // Mapeamento das bandeiras
   const bandeiras = {
@@ -159,7 +160,7 @@ export default function App() {
         }}
         onPress={adicionarMarcador}
         onRegionChangeComplete={(region)=> {
-          console.log('Nova Região visível:', region)
+          setRegiaoAtual(region)
         }}
       >
         {/*Novos Marcadores*/}
@@ -181,6 +182,12 @@ export default function App() {
           image={require('./img/pin.png')}
         />
       </MapView>
+      {regiaoAtual && (
+        <View style={{ padding: 10 }}>
+          <Text>latitude: {regiaoAtual.latitude.toFixed(4)}</Text>
+          <Text>longitude: {regiaoAtual.longitude.toFixed(4)}</Text>
+        </View>
+      )}
       <View style={styles.resumo}>
         <Text style={styles.subTitulo}>{paisSelecionado.nome || 'Nome'}</Text>
         <Text style={styles.texto}>{paisSelecionado.resumo || 'Resumo'}</Text>
