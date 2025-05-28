@@ -15,6 +15,11 @@ export default function Registro() {
 
     const navigation = useNavigation();
 
+    const valorFormatado = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+    }).format(parseFloat(valueInput));
+
     function handleSubmit() {
         Keyboard.dismiss();
         if(isNaN(parseFloat(valueInput)) || type === null) {
@@ -23,7 +28,7 @@ export default function Registro() {
         }
         Alert.alert(
             'Confirmando dados',
-            `Tipos: ${type} - Valor: ${parseFloat(valueInput)}`, 
+            `Tipos: ${type} - Valor: ${valorFormatado}`, 
             [
                 {text: 'Cancelar', style: 'cancel'}, 
                 {text: 'Continuar', onPress: ()=> handleAdd()}
@@ -57,7 +62,7 @@ export default function Registro() {
                     <Input 
                         value={valueInput} 
                         onChangeText={(text)=> setValueInput(text)}
-                        placeholder="Valor desejado" 
+                        placeholder="Valor desejado - EX 20.45" 
                         keyboardType="numeric"
                     />
                     <RegisterTypes type={type} sendTypeChanged={(item)=> setType(item)}/>

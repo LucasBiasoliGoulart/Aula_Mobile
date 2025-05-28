@@ -35,7 +35,22 @@ export default function Home(){
             setMovements(receivas.data)
         }
         getMoviments();
-    }, [isFocused]);
+    }, [isFocused, dateMovements]);
+
+    // Função de deletar
+    async function handleDelete(id) {
+        //alert('Deletou index' + id);
+        try {
+            await api.delete('receives/delete', {
+                params: {
+                    item_id: id
+                }
+            });
+            setDateMovements(new Date());
+        }catch(error) {
+            console.log(error);
+        }
+    }
 
     return(
         <Background>
@@ -56,7 +71,7 @@ export default function Home(){
             <List 
                 data={movements}
                 keyExtractor={item=> item.id}
-                renderItem={({item})=> <HistoricoList data={item}/>}
+                renderItem={({item})=> <HistoricoList data={item} deleteItem={handleDelete}/>}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{paddingBottom: 20}}
             >

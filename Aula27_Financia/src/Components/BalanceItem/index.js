@@ -1,7 +1,12 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { Container, Label, Balance } from "./styles";
 
 export default function BalanceItem({data}) {
+    const valorFormatado = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+    }).format(data.value);
+    
     const labelName = useMemo(()=> {
         if(data.tag === 'saldo') {
             return{
@@ -23,7 +28,7 @@ export default function BalanceItem({data}) {
     return(
         <Container bg={labelName.color}>
             <Label>{labelName.label}</Label>
-            <Balance>{data.saldo}</Balance>
+            <Balance>{valorFormatado}</Balance>
         </Container>
     );
 }
