@@ -5,7 +5,7 @@ export default function BalanceItem({data}) {
     const valorFormatado = new Intl.NumberFormat('pt-BR', {
         style: 'currency',
         currency: 'BRL',
-    }).format(data.value);
+    }).format(data.saldo);
     
     const labelName = useMemo(()=> {
         if(data.tag === 'saldo') {

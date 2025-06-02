@@ -31,3 +31,8 @@ export const List = styled.FlatList`
   flex: 1;
   background-color: #ffffff;
 `;
+
+export const Subtitulo = styled.Text`
+  font-size: 17px;
+  margin-left: 50px;
+`;

@@ -17,6 +17,11 @@ export const TipoText = styled.Text`
     margin-left: 4px;
 `;
 
+export const DescripText = styled.Text`
+    color: #121212;
+    font-size: 15px;
+`;
+
 export const Tipo = styled.View`
     flex-direction: row;
 `;

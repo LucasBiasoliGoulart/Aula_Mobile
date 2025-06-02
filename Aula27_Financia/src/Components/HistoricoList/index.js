@@ -1,4 +1,4 @@
-import { Container, TipoText, Tipo, IconeView, ValorText } from "./styled";
+import { Container, TipoText, Tipo, IconeView, ValorText, DescripText } from "./styled";
 import Icone from '@expo/vector-icons/Feather';
 import { TouchableWithoutFeedback, Alert } from "react-native";
 
@@ -36,7 +36,6 @@ export default function HistoricoList({data, deleteItem}) {
 
     // Função de deletar o registro
     function handleDeleteItem() {
-        //alert('OK');
         Alert.alert(
             'Atenção',
             'Você tem certeza que quer deletar esse registro?',
@@ -56,6 +55,7 @@ export default function HistoricoList({data, deleteItem}) {
                     </IconeView>
                 </Tipo>
                 <ValorText>{valorFormatado}</ValorText>
+                <DescripText>{data.description || 'Sem descrição'}</DescripText>
             </Container>
         </TouchableWithoutFeedback>
     );
